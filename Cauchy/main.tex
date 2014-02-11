@@ -1,0 +1,36 @@
+\documentclass{note}
+\author{Yimin Zhong}
+\title{Numerical Approach to Cauchy Elliptic Problem}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section{Brief Intro}
+The aimed Cauchy problem stated as
+\begin{equation}
+\frac{\dd}{\dd x}\left(\psi \frac{\dd u}{\dd x}\right) + \frac{\dd}{\dd y}\left(\phi \frac{\dd u}{\dd y}\right) = 0
+\end{equation}
+with Cauchy condition as
+\begin{eqnarray}
+u  = h \quad\mbox{on}\quad \Gamma_1 \\
+\nabla u \cdot \nn = g \quad\mbox{on}\quad \Gamma_1
+\end{eqnarray}
+where $\Gamma_1$ is part of the boundary of the domain $\Omega$.
+\subsection{Uniqueness \& Stability}
+It is well known the problem is ill-posed, the solution is extreme sensitive to small perturbation on data. The famous example is
+\begin{example}
+\begin{equation}
+\lp u = 0
+\end{equation}
+with Cauchy data as
+\begin{eqnarray}
+u(x,0) &=& 0 \\
+u_y(x,0) &=& A_n\sin nx 
+\end{eqnarray}
+for all $(x,y)\in \mathbb{R}\times\mathbb{R^{+}}$. Since the solution is given as
+\begin{equation}
+u_n(x,y) = \frac{A_n}{n}\sin nx \sinh ny \to\infty 
+\end{equation}
+as $n\to \infty$.
+\end{example}
+\end{document}
