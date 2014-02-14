@@ -46,3 +46,7 @@
 \newcommand\nn{\mathbf{n}}
 \newcommand{\lp}{\triangle}
 \newcommand{\Lp}{\nabla^2}
+\newcommand{\bfgs}{\mathbf{BFGS}}
+\newcommand*{\pfrac}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\wrt}{$\mathbf{w.r.t}\;$}
+

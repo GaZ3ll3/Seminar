@@ -33,5 +33,39 @@ u_n(x,y) = \frac{A_n}{n}\sin nx \sinh ny \to\infty
 \end{equation}
 as $n\to \infty$.
 \end{example}
+
 \section{Numerical Illustration}
+There are multiple methods for solving Cauchy Problem.
+\subsection{Spectral}
+\subsection{Inverse Cauchy Problem}
+We restate our problem in an optimization sense. Regard the boundary as our data and we impose some other boundary-condition as variables to recover the given data. So we impose
+\begin{eqnarray}
+u  = \widetilde{h} \quad\mbox{on}\quad \Gamma_2 \\
+\nabla u \cdot \nn = g \quad\mbox{on}\quad \Gamma_1
+\end{eqnarray}
+where $\Gamma_2 = \partial\Omega-\Gamma_1$. We set the objective functional as
+\begin{eqnarray}
+F(\widetilde{h}) = \min_{\widetilde{h}\in V} \|u(x) - h\|_{\Gamma_1}^2 + \mbox{Regularization}
+\end{eqnarray}
+Since $\psi, \phi$ are positive functions, we can define a norm on $\Gamma_1$ as
+ $$\|\cdot\|_{\Gamma_1} = \langle\phi*\cdot,\cdot\rangle$$
+\subsubsection{BFGS/LBFGS,CG,GMRES}
+For $\bfgs$, we need to find the general gradient of functional $F$, by the help of Green's formula, we can do it in this way. Assuming there is no regularization term here.
+\begin{equation}
+\frac{\partial F}{\partial \widetilde{h}} = \int_{\Gamma_1} \phi \pfrac{u}{\widetilde{h}}\left(u(x)-h\right))\dd s
+\end{equation}
+Well, consider another PDE \wrt $v$.
+\begin{equation}
+\frac{\dd}{\dd x}\left(\psi \frac{\dd v}{\dd x}\right) + \frac{\dd}{\dd y}\left(\phi \frac{\dd v}{\dd y}\right) = 0
+\end{equation}
+with boundary condition as
+\begin{eqnarray}
+v &=& 0 \quad\quad\;\;\;\mbox{on}\quad \Gamma_2 \\
+\pfrac{u}{\mathbf{n}} &=& u-h \quad\mbox{on}\quad \Gamma_1
+\end{eqnarray}
+Then by Green's formula
+\begin{eqnarray}
+\int_{\Omega} \frac{\dd}{\dd x}\left(\psi \frac{\dd v}{\dd x}\right)u + \frac{\dd}{\dd y}\left(\phi \frac{\dd v}{\dd y}\right)u = 0\\
+\int_{\Omega}\frac{\dd}{\dd x}\left(\psi \frac{\dd u}{\dd x}\right)v + \frac{\dd}{\dd y}\left(\phi \frac{\dd u}{\dd y}\right)v = 0
+\end{eqnarray}
 \end{document}
