@@ -12,14 +12,14 @@ from scipy.optimize import minimize
 parameters["reorder_dofs_serial"] = False
 
 # Create mesh and define function space
-DIMX, DIMY = 20,20
+DIMX, DIMY = 320,320
 mesh = UnitSquareMesh(DIMX, DIMY)
 V = FunctionSpace(mesh, 'Lagrange', 1)
 # TRUE SOLUTION
 u0 = Expression('x[0] + x[1]')
 # your guess have to be extension of the boundary condition, otherwise the 
 # program won't give a accurate solution.
-u1 = Expression('x[0] + 0.1*x[1]')
+u1 = Expression('x[0]')
 
 # g = psi
 g = Expression('1.0')
