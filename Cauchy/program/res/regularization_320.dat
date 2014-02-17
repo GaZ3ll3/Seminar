@@ -35074,3 +35074,26 @@ Machine precision = 2.220D-16
  **** ****     0     0  con    0  1.0D+00  1.0D-05  1.149D-10  7.732D-11
 
 RELATIVE L2 ERROR: 0.0404367089107
+
+Tnf   = total number of function evaluations
+Tnint = total number of segments explored during Cauchy searches
+Skip  = number of BFGS updates skipped
+Nact  = number of active bounds at final generalized Cauchy point
+Projg = norm of the final projected gradient
+F     = final function value
+
+           * * *
+
+   N    Tit     Tnf  Tnint  Skip  Nact     Projg        F
+  959  35149  41603     27     0     0   4.506D-11   7.731D-11
+  F =  7.73108505573378455E-011
+
+CONVERGENCE: REL_REDUCTION_OF_F_<=_FACTR*EPSMCH             
+
+ Warning:  more than 10 function and gradient
+   evaluations in the last line search.  Termination
+   may possibly be caused by a bad search direction.
+
+ Cauchy                time 0.000E+00 seconds.
+ Subspace minimization time 0.000E+00 seconds.
+ Line search           time 0.000E+00 seconds.
