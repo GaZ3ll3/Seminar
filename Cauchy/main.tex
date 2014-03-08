@@ -36,7 +36,8 @@ as $n\to \infty$.
 
 \section{Numerical Illustration}
 There are multiple methods for solving Cauchy Problem.
-\subsection{Spectral}
+\subsection{Parametrize Solution}
+Regard the solution as some combination under some basis. It is known that the coefficients of the basis will have an error growing exponentially. However, if we restrict the solution in a smooth way. Then this method will return a reasonable reconstruction.
 \subsection{Inverse Cauchy Problem}
 We restate our problem in an optimization sense. Regard the boundary as our data and we impose some other boundary-condition as variables to recover the given data. So we impose
 \begin{eqnarray}
@@ -45,7 +46,7 @@ u  = \widetilde{h} \quad\mbox{on}\quad \Gamma_2 \\
 \end{eqnarray}
 where $\Gamma_2 = \partial\Omega-\Gamma_1$. We set the objective functional as
 \begin{eqnarray}
-F(\widetilde{h}) = \min_{\widetilde{h}\in V} \|u(x) - h\|_{\Gamma_1}^2 + \mbox{Regularization}
+F(\widetilde{h}) = \min_{\widetilde{h}\in V} \frac{1}{2}\|u(x) - h\|_{\Gamma_1}^2 + \mbox{Regularization}
 \end{eqnarray}
 Since $\psi, \phi$ are positive functions, we can define a norm on $\Gamma_1$ as
  $$\|\cdot\|_{\Gamma_1} = \langle\phi*\cdot,\cdot\rangle$$
@@ -54,18 +55,63 @@ For $\bfgs$, we need to find the general gradient of functional $F$, by the help
 \begin{equation}
 \frac{\partial F}{\partial \widetilde{h}} = \int_{\Gamma_1} \phi \pfrac{u}{\widetilde{h}}\left(u(x)-h\right))\dd s
 \end{equation}
-Well, consider another PDE \wrt $v$.
+Well, consider another two PDEs \wrt $v$.
 \begin{equation}
 \frac{\dd}{\dd x}\left(\psi \frac{\dd v}{\dd x}\right) + \frac{\dd}{\dd y}\left(\phi \frac{\dd v}{\dd y}\right) = 0
 \end{equation}
 with boundary condition as
 \begin{eqnarray}
 v &=& 0 \quad\quad\;\;\;\mbox{on}\quad \Gamma_2 \\
-\pfrac{u}{\mathbf{n}} &=& u-h \quad\mbox{on}\quad \Gamma_1
+\pfrac{v}{\mathbf{n}} &=& u-h \quad\mbox{on}\quad \Gamma_1
 \end{eqnarray}
-Then by Green's formula
+and $ w = \pfrac{u}{\widetilde{h}}$ satisfies
+\begin{equation}
+\frac{\dd}{\dd x}\left(\psi \frac{\dd w}{\dd x}\right) + \frac{\dd}{\dd y}\left(\phi \frac{\dd w}{\dd y}\right) = 0
+\end{equation}
+with boundary condition as
 \begin{eqnarray}
-\int_{\Omega} \frac{\dd}{\dd x}\left(\psi \frac{\dd v}{\dd x}\right)u + \frac{\dd}{\dd y}\left(\phi \frac{\dd v}{\dd y}\right)u = 0\\
-\int_{\Omega}\frac{\dd}{\dd x}\left(\psi \frac{\dd u}{\dd x}\right)v + \frac{\dd}{\dd y}\left(\phi \frac{\dd u}{\dd y}\right)v = 0
+w &=& I\quad\quad\mbox{on}\quad \Gamma_2 \\
+\pfrac{w}{\mathbf{n}} &=& 0 \quad\quad\mbox{on}\quad \Gamma_1
 \end{eqnarray}
+Then apply Green's formula to
+\begin{eqnarray}
+\int_{\Omega} \frac{\dd}{\dd x}\left(\psi \frac{\dd v}{\dd x}\right)w + \frac{\dd}{\dd y}\left(\phi \frac{\dd v}{\dd y}\right)w = 0\\
+\int_{\Omega}\frac{\dd}{\dd x}\left(\psi \frac{\dd w}{\dd x}\right)v + \frac{\dd}{\dd y}\left(\phi \frac{\dd w}{\dd y}\right)v = 0
+\end{eqnarray}
+According to
+\begin{eqnarray}
+\int_{\Omega} \frac{\dd}{\dd x}\left(\psi \frac{\dd w}{\dd x}\right)v = -\int_{\Omega}\psi\frac{\dd v}{\dd x}\frac{\dd w}{\dd x} + \int_{\partial\Omega} \psi v \pfrac{w}{\mathbf{n}} \mathbf{n}_x\cdot \dd\mathbf{s}
+\end{eqnarray}
+We can formulate above equations as
+\begin{eqnarray}
+\iangle{\nabla v}{\nabla w} = \int_{\partial\Omega} v\pfrac{w}{\mathbf{n}} (\psi,\phi)\otimes\mathbf{n}\cdot \dd\mathbf{s}\\
+\iangle{\nabla v}{\nabla w}  = \int_{\partial\Omega} w\pfrac{v}{\mathbf{n}} (\psi,\phi)\otimes\mathbf{n}\cdot \dd\mathbf{s}
+\end{eqnarray}
+where 
+\begin{eqnarray*}
+\iangle{\nabla v}{\nabla w}  = \int_{\Omega}\psi\frac{\dd v}{\dd x}\frac{\dd w}{\dd x} + \int_{\Omega}\phi\frac{\dd v}{\dd y}\frac{\dd w}{\dd y}
+\end{eqnarray*}
+Throw boundary conditions onto the equation above
+\begin{eqnarray}
+\int_{\Gamma_2} \pfrac{v}{\mathbf{n}} \delta_{ij} (\psi,\phi)\otimes\mathbf{n} \dd s +  \int_{\Gamma_1} \phi w(u-h)\dd s = 0
+\end{eqnarray}
+Then the gradient can be taken as
+$$-(\psi \mathbf{n}_x + \phi \mathbf{n}_y )\pfrac{v}{\mathbf{n}}$$
+on each point of $\Gamma_2$.
+\begin{remark}
+If using FEM to solve this problem, we shall put all computation above into discrete version. Rough speaking, we need solve 
+\begin{eqnarray}
+A_{FF} U_F = b_F - (A U_D)_F
+\end{eqnarray}
+\begin{equation}
+U_F = A_{FF}^{-1}(b_F - (AU_D)_F)
+\end{equation}
+Consider $w$ as $\dfrac{dU}{dU_D}$,
+\begin{eqnarray}
+\dfrac{dU_D}{d U_D} &=& I\\
+\dfrac{dU_F}{d U_D} &=& -A_{FF}^{-1}(A_{FD})
+\end{eqnarray}
+Dealing with matrix version will make solution more accurate. However, these two approaches are equivalent if mesh is fine.
+\end{remark}
+
 \end{document}

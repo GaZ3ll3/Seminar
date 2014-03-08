@@ -48,5 +48,7 @@
 \newcommand{\Lp}{\nabla^2}
 \newcommand{\bfgs}{\mathbf{BFGS}}
 \newcommand*{\pfrac}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand*{\ddfrac}[2]{\frac{\dd #1}{\dd #2}}
 \newcommand{\wrt}{$\mathbf{w.r.t}\;$}
+\newcommand*{\iangle}[2]{\langle #1,#2 \rangle}
 
