@@ -14,6 +14,25 @@ function M = stima3(vertices)
 %                    in $(HOME)/acf/fem3d/ and
 %                    in $(HOME)/acf/fem2d_heat/
 
+
+%   Add psi and phi into stiffness matrix. Depends on psi and phi's
+%   resolution. 
+
+%   psi base(i)_x base(j)_x + phi base(i)_y base(j)_y
+%   derivatives of base(i) base(j) are constants. thus only have to find
+%   the average of function psi and phi on each elements.
+%   
+%   Integration on a trianle element for psi or phi. Use interpolation method is
+%   preferred right now.
+
+
+% first order
+%   Int(phi)(a  ,b ,c) = 1/3(phi(a) + phi(b) + phi(c)) *Area. 
+%
+% third order
+%   Int(phi)(a  ,b ,c) = 27/60 phi((a+b+c)/3) + 1/20(phi(a) + phi(b) +
+%   phi(c)) + 2/15 (phi((a+b)/2) + phi((b+c)/2) + phi((c+a)/2) )
+
 d = size(vertices,2);
 G = [ones(1,d+1);vertices'] \ [zeros(1,d);eye(d)];
 M = det([ones(1,d+1);vertices']) * G * G' / prod(1:d);

@@ -10,10 +10,11 @@ if nargin < 1
     
     hmax = 0.02;
 end
-[A,b,coordinates,elements3, dirichlet, neumann, FreeNodes] = Cauchy_Init(geom,hmax);
+[A,b,coordinates,elements3, dirichlet, neumann, FreeNodes,~,~] = Cauchy_Init(geom,hmax);
 
 
 u_d = 0.500*(coordinates(:,1).^2 + coordinates(:,2).^2); % boundary condition on other sides
+
 
 % elements for showing
 

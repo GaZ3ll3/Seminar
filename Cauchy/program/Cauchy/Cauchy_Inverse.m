@@ -19,12 +19,19 @@ cmp = 1; % plot difference
 
 if nargin < 1
     % default setting is UnitSquare
-    geom = [ 2 0 1 0 0 1 0;
-        2 1 1 0 1 1 0;
-        2 1 0 1 1 1 0;
-        2 0 0 1 0 1 0]';
-    
-    hmax = 0.03;
+%     geom = [ 2 0 1 0 0 1 0;
+%         2 1 1 0 1 1 0;
+%         2 1 0 1 1 1 0;
+%         2 0 0 1 0 1 0]';
+
+    % This is for modifying, Problem on 1 x r rectanle.
+    r = 3;
+    geom = [2 0 1 0 0 1 0;
+        2 1 1 0 r 1 0;
+        2 1 0 r r 1 0;
+        2 0 0 r 0 1 0]';
+
+    hmax = 0.05;
 end
 
 
@@ -32,11 +39,27 @@ end
 
 % Dirichlet condition to be matched for Neumann boundary also as exact
 % solution
-Ddata = 0.500*(coordinates(:,1).^2 + coordinates(:,2).^2); 
+
+% sphere
+% Ddata = 0.500*(coordinates(:,1).^2 + coordinates(:,2).^2); 
+
+% plane
+Ddata = coordinates(:,1) + coordinates(:,2);
+
+% hyperbolic sine product cosine surface
+% Ddata = sinh(coordinates(:,1)).*cos(coordinates(:,2)); 
+
+
+
+% TEST DATA
+% Ddata = (coordinates(:,1).^2 + coordinates(:,2).^2);
+
+
+%-------------------------------------------------------------------------
 
 % Use 'MaxFunEvals' iff 'GradObj' is off.
 options = optimset('Diagnostics','off','DerivativeCheck','off','FinDiffType','central','LargeScale','off',...
-    'GradObj','on','Display','iter-detailed','TolFun',1e-16,'TolX',1e-16,'MaxIter',10000,'MaxFunEvals',1000000,'HessUpdate','bfgs');
+    'GradObj','on','Display','iter-detailed','TolFun',1e-12,'TolX',1e-12,'MaxIter',10000,'MaxFunEvals',1000000,'HessUpdate','bfgs');
 % initial guess
 
 dset = unique(dirichlet);
@@ -88,8 +111,9 @@ function [f, g] = Cauchy_Opt(u_d)
 
 global A b coordinates FreeNodes dirichlet neumann Ddata dset dnum elements3
 
-% Regularization.
-eps = 1e-11;
+% Regularization. 1e-11 or 1e-12 at most right now. will give an up-to 25%
+% related abs error.
+eps = 1e-12;
 
 f = .0; f_reg = .0; 
 g = zeros(size(u_d,1),1);

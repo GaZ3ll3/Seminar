@@ -3,8 +3,17 @@ function [A,b,u] = Cauchy_Reduction(A,b,coordinates,FreeNodes,dirichlet,neumann,
 %   Detailed explanation goes here
 
 for j = 1 : size(neumann,1)
-  b(neumann(j,:))=b(neumann(j,:)) + norm(coordinates(neumann(j,1),:)- ...
-      coordinates(neumann(j,2),:)) * g(sum(coordinates(neumann(j,:),:))/2)/2;
+    vec = coordinates(neumann(j,1),:) - coordinates(neumann(j,2),:);
+    b(neumann(j,:))=b(neumann(j,:)) + ...
+        (Psi(sum(coordinates(neumann(j,:),:))/2)*vec(2)^2 + Phi(sum(coordinates(neumann(j,:),:))/2)*vec(1)^2)...
+        *g(sum(coordinates(neumann(j,:),:))/2)/2/norm(vec);
+
+
+% for speed up
+%     b(neumann(j,:))=b(neumann(j,:)) + ...
+%     Phi(sum(coordinates(neumann(j,:),:))/2)*norm(vec)...
+%     *g(sum(coordinates(neumann(j,:),:))/2)/2;
+
 end
 
 % Dirichlet conditions 
