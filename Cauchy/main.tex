@@ -64,13 +64,13 @@ with boundary condition as
 v &=& 0 \quad\quad\;\;\;\mbox{on}\quad \Gamma_2 \\
 \pfrac{v}{\mathbf{n}} &=& u-h \quad\mbox{on}\quad \Gamma_1
 \end{eqnarray}
-and $ w = \pfrac{u}{\widetilde{h}}$ satisfies
+and functional(Frechet derivative) $ w = \pfrac{u}{\widetilde{h}}$ satisfies
 \begin{equation}
 \frac{\dd}{\dd x}\left(\psi \frac{\dd w}{\dd x}\right) + \frac{\dd}{\dd y}\left(\phi \frac{\dd w}{\dd y}\right) = 0
 \end{equation}
 with boundary condition as
 \begin{eqnarray}
-w &=& I\quad\quad\mbox{on}\quad \Gamma_2 \\
+w &=& \mathbf{I}\quad\quad\mbox{on}\quad \Gamma_2 \\
 \pfrac{w}{\mathbf{n}} &=& 0 \quad\quad\mbox{on}\quad \Gamma_1
 \end{eqnarray}
 Then apply Green's formula to
@@ -84,8 +84,8 @@ According to
 \end{eqnarray}
 We can formulate above equations as
 \begin{eqnarray}
-\iangle{\nabla v}{\nabla w} = \int_{\partial\Omega} v\pfrac{w}{\mathbf{n}} (\psi,\phi)\otimes\mathbf{n}\cdot \dd\mathbf{s}\\
-\iangle{\nabla v}{\nabla w}  = \int_{\partial\Omega} w\pfrac{v}{\mathbf{n}} (\psi,\phi)\otimes\mathbf{n}\cdot \dd\mathbf{s}
+\iangle{\nabla v}{\nabla w} = \int_{\partial\Omega} v\pfrac{w}{\mathbf{n}} (\psi\mathbf{n}_x + \phi\mathbf{n}_y)\cdot \dd\mathbf{s}\\
+\iangle{\nabla v}{\nabla w}  = \int_{\partial\Omega} w\pfrac{v}{\mathbf{n}} (\psi\mathbf{n}_x + \phi\mathbf{n}_y)\cdot \dd\mathbf{s}
 \end{eqnarray}
 where 
 \begin{eqnarray*}
@@ -93,11 +93,13 @@ where
 \end{eqnarray*}
 Throw boundary conditions onto the equation above
 \begin{eqnarray}
-\int_{\Gamma_2} \pfrac{v}{\mathbf{n}} \delta_{ij} (\psi,\phi)\otimes\mathbf{n} \dd s +  \int_{\Gamma_1} \phi w(u-h)\dd s = 0
+\int_{\Gamma_2} \pfrac{v}{\mathbf{n}} \mathbf{I} (\psi\mathbf{n}_x + \phi\mathbf{n}_y) \dd s +  \int_{\Gamma_1} \phi w(u-h)\dd s = 0
 \end{eqnarray}
-Then the gradient can be taken as
-$$-(\psi \mathbf{n}_x + \phi \mathbf{n}_y )\pfrac{v}{\mathbf{n}}$$
-on each point of $\Gamma_2$.
+Which means
+\begin{eqnarray}
+\frac{\partial F}{\partial \widetilde{h}}(x) =\int_{\Gamma_2} -\mathbf{I}(x)(\psi \mathbf{n}_x + \phi \mathbf{n}_y )\cdot \pfrac{v}{\mathbf{n}}
+\end{eqnarray}
+Here $\mathbf{I}$ functional is diagonal operator.
 \begin{remark}
 If using FEM to solve this problem, we shall put all computation above into discrete version. Rough speaking, we need solve 
 \begin{eqnarray}
@@ -109,9 +111,20 @@ U_F = A_{FF}^{-1}(b_F - (AU_D)_F)
 Consider $w$ as $\dfrac{dU}{dU_D}$,
 \begin{eqnarray}
 \dfrac{dU_D}{d U_D} &=& I\\
-\dfrac{dU_F}{d U_D} &=& -A_{FF}^{-1}(A_{FD})
+\dfrac{dU_F}{d U_D} &=& -A_{FF}^{-1}(A_{FD})\\
+\dfrac{dU}{d U_D}   &=& I ; -A_{FF}^{-1}(A_{FD})
 \end{eqnarray}
-Dealing with matrix version will make solution more accurate. However, these two approaches are equivalent if mesh is fine.
+Dealing with matrix version will make solution more accurate. However, these two approaches are equivalent if mesh is fine. And for the objective functional $F$:
+\begin{eqnarray}
+F(h) = \frac{1}{2} \sum_{\Gamma_1} \frac{1}{2}(U(left) - h(left))^2 + (U(right) - h(right))^2)
+\end{eqnarray}
+\end{remark}
+
+\begin{remark}
+Using Newton's method with FEM requires Hessian matrix information. Here we have 
+\begin{eqnarray}
+\dfrac{dU}{d U_D}   &=& \{I ; -A_{FF}^{-1}(A_{FD})\}
+\end{eqnarray}
 \end{remark}
 
 \end{document}
