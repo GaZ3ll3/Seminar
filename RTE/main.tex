@@ -1,0 +1,73 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\author{Yimin Zhong}
+\title{Computation Note for 2D Transport Equation}
+\begin{document}
+\maketitle
+\section{Transport Equation}
+\begin{eqnarray}
+\mathbf{\theta}\cdot \nabla u + \mu u = \mu_s \int k(\theta) u(x,y,\theta)\mathrm{d}\theta + f
+\end{eqnarray}
+with vanishing boundary condition. To simplify the computing, $k(\theta)$ is taken as a constant and 
+\begin{equation}
+\int k(\theta)\mathrm{d}\theta = 1
+\end{equation}
+\section{Source Iteration}
+Solving transport equation with source iteration:
+\begin{equation}
+\mathbf{\theta}\cdot \nabla u^{(l+1)} + \mu u^{(l+1)} = \mu_s \int k(\theta) u^{(l)}(x,y,\theta)\mathrm{d}\theta + f
+\end{equation}
+with initial guess $u^{(0)} = 0$. 
+
+\subsection{FEM Approach}
+\subsection{Fourier Approach}
+Consider $f$ as finite banded source, represented as 
+\begin{eqnarray}
+f = \sum_{-N}^{N} f_k \exp({\mathrm{i}k\theta})
+\end{eqnarray}
+Consider the solution with form 
+\begin{eqnarray}
+u = \sum_{-N}^{N} u_k \exp({\mathrm{i}k\theta}) =\sum u_k\psi_k
+\end{eqnarray}
+Thus
+\begin{eqnarray}
+\frac{1}{2}(\psi_1 + \psi_{-1}, -j(\psi_1 - \psi_{-1}))\cdot (\sum \psi_k\nabla u_k) + \mu \sum \psi_k u_k = \mu_s u_0 + \sum \psi_k f_k
+\end{eqnarray}
+simplify as
+\begin{eqnarray}
+\sum \frac{1}{2}(\psi_{k+1}+\psi_{k-1}, -j(\psi_{k+1} - \psi_{k-1}))\cdot \nabla u_k + \mu \sum \psi_k u_k = \mu_s u_0 + \sum \psi_k f_k
+\end{eqnarray}
+Consider coefficient of $\psi_k$, when $k\neq 0$
+\begin{eqnarray}
+\frac{1}{2} \frac{\partial (u_{k+1} + u_{k-1})}{\partial x} + \frac{1}{2}j \frac{\partial (u_{k+1} - u_{k-1})}{\partial y} + \mu u_k = f_k
+\end{eqnarray}
+when $k=0$
+\begin{eqnarray}
+\frac{1}{2} \frac{\partial (u_{k+1} + u_{k-1})}{\partial x} + \frac{1}{2}j \frac{\partial (u_{k+1} - u_{k-1})}{\partial y} + \mu u_k = \mu_s u_0 +f_k
+\end{eqnarray}
+Thus take $U = \{u_k\}$ as a vector of functions.
+\begin{eqnarray}
+A U_x+ B U_y + \mu U = \mu_s u_0 E_0 + F
+\end{eqnarray}
+Port above equation into iteration
+\begin{eqnarray}
+A U_x^{(l+1)} + B U_y^{(l+1)} + \mu U^{(l+1)} = \mu u^{(l)}_0 E_0 + F
+\end{eqnarray}
+Here one can adjust the dimension of matrices $A$ and $B$ by choosing the expected band width.
+\subsubsection{FEM continue}
+\begin{eqnarray}
+\int_{\Omega} A U_x V + B U_y V + \mu UV = E0\int \mu_s u_0 v + FV 
+\end{eqnarray}
+On the targeted mesh, one can solve the above FEM problem to get all modes of $U$ evaluated on all mesh points. The size of this problem is size of band times size of mesh. 
+\subsubsection{Improvement}
+On a fine mesh will make the problem extremely unsolvable. If we know $F$ is sparse or only consists on some smooth modes, or only a few high frequency modes, then we simply solve our problem near the corresponding $k$.
+\section{Recovering $F$ for point sources}
+Since $F$ will contain all modes, then it is not realistic to use Fourier approach. However, if $\mu$ and $\mu_s$ are already known, then using source iteration with full boundary data will tell the location of point sources effectively.
+\subsubsection{Integrated data}
+Consider integrated data on boundary $H(x) = \int_{\theta} u(x,\theta) \mathrm{d}\theta$.
+\end{document}
