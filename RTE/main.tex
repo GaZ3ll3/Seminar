@@ -5,6 +5,7 @@
 \usepackage{amssymb}
 \usepackage{makeidx}
 \usepackage{graphicx}
+\newtheorem{proof}{Proof}[subsection]
 \author{Yimin Zhong}
 \title{Computation Note for 2D Transport Equation}
 \begin{document}
@@ -25,6 +26,7 @@ Solving transport equation with source iteration:
 with initial guess $u^{(0)} = 0$. 
 
 \subsection{FEM Approach}
+Using FEM and source iteration, then we need to discretize the angular space. On each node, there is a mesh on angular space, see the integration of scattering part. However, for iteration, updating all the value of all nodes and all angles will be a huge problem, since the ordering of nodes now make difference. This is caused by angular mesh, and will cause ray effect.
 \subsection{Fourier Approach}
 Consider $f$ as finite banded source, represented as 
 \begin{eqnarray}
@@ -61,7 +63,7 @@ A U_x^{(l+1)} + B U_y^{(l+1)} + \mu U^{(l+1)} = \mu u^{(l)}_0 E_0 + F
 Here one can adjust the dimension of matrices $A$ and $B$ by choosing the expected band width.
 \subsubsection{FEM continue}
 \begin{eqnarray}
-\int_{\Omega} A U_x V + B U_y V + \mu UV = E0\int \mu_s u_0 v + FV 
+\int_{\Omega} A U_x V + B U_y V + \mu UV = E_0\int \mu_s u_0 v + FV 
 \end{eqnarray}
 On the targeted mesh, one can solve the above FEM problem to get all modes of $U$ evaluated on all mesh points. The size of this problem is size of band times size of mesh. 
 \subsubsection{Improvement}
@@ -69,5 +71,36 @@ On a fine mesh will make the problem extremely unsolvable. If we know $F$ is spa
 \section{Recovering $F$ for point sources}
 Since $F$ will contain all modes, then it is not realistic to use Fourier approach. However, if $\mu$ and $\mu_s$ are already known, then using source iteration with full boundary data will tell the location of point sources effectively.
 \subsubsection{Integrated data}
-Consider integrated data on boundary $H(x) = \int_{\theta} u(x,\theta) \mathrm{d}\theta$.
+Consider integrated data on boundary $$H(x) = \int_{\theta} u(x,\theta) \mathrm{d}\theta$$\\
+And we are going to recover the point sources from given $H(x)$ on boundary, with knowledge that input data is zero. So all output is from inside source. We first show the result on uniqueness.
+\subsection{Some Uniqueness}
+Consider the equation on space $\Omega V = \Omega \times V$, where $V = \{|\mathbf{v}| = 1\}$, and $\Omega\subset \mathbb{R}^n$ is compact and convex with smooth boundary.
+\begin{equation}
+\mathbf{v}\cdot \nabla u(\mathbf{x},\mathbf{v}) + \mu u = \mu_s \int_{\Omega_xV} k(x,\mathbf{v'},\mathbf{v})u(\mathbf{x},\mathbf{v'})\mathrm{d}\omega + f
+\end{equation}
+and boundary condition given as
+\begin{eqnarray}
+u |_{\Omega\times V^{-}} = 0
+\end{eqnarray}
+data collected as for all $\mathbf{x}\in \partial \Omega$
+\begin{eqnarray}
+I(\mathbf{x}) = \int_{V} |u (\mathbf{x},\mathbf{v})|^2\mathrm{d}\omega 
+\end{eqnarray}
+Here $\Omega_xV$ is the tangent bundle space at $x$, can be taken as $T_x\Omega V$.
+\subsubsection{Estimation}
+So from the above setting $\Omega$ is $n$-dimensional and $V$ is one dimension less than $\Omega$.
+First we consider the transport operator.
+$$Tu = \mathbf{v}\cdot \nabla u(\mathbf{x},\mathbf{v})$$\\
+Let's make some analogue with Poincare inequality here and then generalize the inequality.
+\begin{eqnarray}
+\int_{\Omega V} |u|^2 \mathrm{d}\mathbf{x}\mathrm{d}\omega \le C(\Omega)\int_{\Omega V} |Tu|^2 \mathrm{d}\mathbf{x}\mathrm{d}\omega 
+\end{eqnarray}
+\begin{proof}
+First we introduce transverse time $\tau^{+}(\mathbf{x},\mathbf{v})$ and $\tau^{-}(\mathbf{x},\mathbf{v})$ with usual definition. Also we notice that the geodesic trace $\gamma_{\mathbf{x},\mathbf{v}}(t)$ is a straight line with initial constraints on $\partial\Omega\times V^{-}$:
+\begin{eqnarray}
+\gamma_{\mathbf{x},\mathbf{v}}(0) = \mathbf{x}\\
+\dot{\gamma}_{\mathbf{x},\mathbf{v}}(0) = \mathbf{v}
+\end{eqnarray}
+
+\end{proof}
 \end{document}
