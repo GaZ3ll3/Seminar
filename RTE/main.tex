@@ -6,6 +6,15 @@
 \usepackage{makeidx}
 \usepackage{graphicx}
 \newtheorem{proof}{Proof}[subsection]
+\newtheorem{theorem}{Theorem}[subsection]
+\newtheorem{lemma}{Lemma}[subsection]
+\newtheorem{remark}{Remark}[subsection]
+
+
+\newcommand{\bigslant}[2]{{\raisebox{.2em}{$#1$}\left/\raisebox{-.2em}{$#2$}\right.}}
+
+
+
 \author{Yimin Zhong}
 \title{Computation Note for 2D Transport Equation}
 \begin{document}
@@ -74,33 +83,69 @@ Since $F$ will contain all modes, then it is not realistic to use Fourier approa
 Consider integrated data on boundary $$H(x) = \int_{\theta} u(x,\theta) \mathrm{d}\theta$$\\
 And we are going to recover the point sources from given $H(x)$ on boundary, with knowledge that input data is zero. So all output is from inside source. We first show the result on uniqueness.
 \subsection{Some Uniqueness}
-Consider the equation on space $\Omega V = \Omega \times V$, where $V = \{|\mathbf{v}| = 1\}$, and $\Omega\subset \mathbb{R}^n$ is compact and convex with smooth boundary.
+Consider the equation on space of unit tangent bundle $S\Omega = \Omega \times V$, where $V = \{|\mathbf{v}| = 1\}$, and $\Omega\subset \mathbb{R}^n$ is compact and convex with smooth boundary.
 \begin{equation}
 \mathbf{v}\cdot \nabla u(\mathbf{x},\mathbf{v}) + \mu u = \mu_s \int_{\Omega_xV} k(x,\mathbf{v'},\mathbf{v})u(\mathbf{x},\mathbf{v'})\mathrm{d}\omega + f
 \end{equation}
 and boundary condition given as
 \begin{eqnarray}
-u |_{\Omega\times V^{-}} = 0
+u |_{\partial\Omega\times V^{-}} = 0
 \end{eqnarray}
 data collected as for all $\mathbf{x}\in \partial \Omega$
 \begin{eqnarray}
 I(\mathbf{x}) = \int_{V} |u (\mathbf{x},\mathbf{v})|^2\mathrm{d}\omega 
 \end{eqnarray}
-Here $\Omega_xV$ is the tangent bundle space at $x$, can be taken as $T_x\Omega V$.
 \subsubsection{Estimation}
 So from the above setting $\Omega$ is $n$-dimensional and $V$ is one dimension less than $\Omega$.
 First we consider the transport operator.
 $$Tu = \mathbf{v}\cdot \nabla u(\mathbf{x},\mathbf{v})$$\\
 Let's make some analogue with Poincare inequality here and then generalize the inequality.
+\begin{theorem}[Poincare Inequality]
+If given $u|_{\partial \Omega\times V^{-}} = 0$, then we have 
 \begin{eqnarray}
-\int_{\Omega V} |u|^2 \mathrm{d}\mathbf{x}\mathrm{d}\omega \le C(\Omega)\int_{\Omega V} |Tu|^2 \mathrm{d}\mathbf{x}\mathrm{d}\omega 
+\int_{S\Omega} \lambda|u|^2 \mathrm{d}\Sigma \le \lambda_0\int_{S\Omega}|Tu|^2 \mathrm{d}\Sigma
 \end{eqnarray}
+\end{theorem}
+To simplify the proof, we claim the following lemma.
+\begin{lemma}
+Consider a function $\phi\in C(S\Omega)$ with support as $\Omega_{\phi}V$. If
+\begin{eqnarray}
+\sup_{(\mathbf{x},\mathbf{v})\Omega_{\phi} V} |T\phi(\mathbf{x},\mathbf{v})| < \infty
+\end{eqnarray}
+And $\phi|_{\partial\Omega\times V^{-}} = 0$, then
+\begin{eqnarray}
+\int_{S\Omega}\lambda |\phi|^2 \mathrm{d}\Sigma \le \lambda_0\int_{\Omega_{\phi}V} |T\phi|^2 \mathrm{d}\Sigma
+\end{eqnarray}
+\end{lemma}
 \begin{proof}
-First we introduce transverse time $\tau^{+}(\mathbf{x},\mathbf{v})$ and $\tau^{-}(\mathbf{x},\mathbf{v})$ with usual definition. Also we notice that the geodesic trace $\gamma_{\mathbf{x},\mathbf{v}}(t)$ is a straight line with initial constraints on $\partial\Omega\times V^{-}$:
+First we introduce transverse time $\tau^{+}(\mathbf{x},\mathbf{v})$ and $\tau^{-}(\mathbf{x},\mathbf{v})$ with usual definition. Also we notice that the geodesic defined as $\gamma_{\mathbf{x},\mathbf{v}}(t)$ with initial constraints on $\partial\Omega\times V^{-}$:
 \begin{eqnarray}
 \gamma_{\mathbf{x},\mathbf{v}}(0) = \mathbf{x}\\
 \dot{\gamma}_{\mathbf{x},\mathbf{v}}(0) = \mathbf{v}
 \end{eqnarray}
-
+Consider cylinder domain $\Theta = \{(\mathbf{x},\mathbf{v},t) | 0\le t\le \tau^{+}(\mathbf{x},\mathbf{v})\}$ on $\partial\Omega\times V^{-}$. And consider mapping $\beta$ as geodesic flow $\beta(\mathbf{x},\mathbf{v},t) = (\gamma_{\mathbf{x},\mathbf{v}}(t), \dot{\gamma}_{\mathbf{x},\mathbf{v}}(t))$, this maps cylinder domain $\Theta$ diffeomorphically onto $\Omega\times V$. Therefore, 
+\begin{eqnarray}
+\int_{S\Omega}\lambda |\phi|^2 \mathrm{d}\Sigma = \int_{\Theta}(\lambda\circ\beta) |\phi\circ\beta|^2\beta^{\ast}(\mathrm{d}\Sigma)
+\end{eqnarray}
+Here $\beta^{\ast}$ is the pull back. 
+\begin{remark}
+$\beta(\cdot,\cdot,t)$ as a geodesic flow on unit tangent bundle maps $S\Omega$ to $S\Omega$. Moreover, geodesic flow preserves symplectic form, hence the volume form $\mathrm{d}\Sigma$.
+\end{remark}
+The vector field $\dfrac{\partial}{\partial t}$ preserves the volume form $\beta^{\ast}(\mathrm{d}\Sigma)$. Thus $\beta^{\ast}(\mathrm{d}\Sigma) = d\sigma dt$ for some volume form $\mathrm{d}\sigma$ on $\partial \Omega\times V^{-}$. Then
+\begin{eqnarray}\label{eq:22}
+\int_{S\Omega}\lambda |\phi|^2 \mathrm{d}\Sigma = \int_{\partial\Omega\times V^{-}}\mathrm{d}\sigma\int_{0}^{\tau^{+}}(\lambda\circ\beta) |\phi\circ\beta|^2\mathrm{d}t
+\end{eqnarray}
+By the same way, and observe that
+\begin{eqnarray}
+\dfrac{\mathrm{d}}{\mathrm{d}t}(\phi\circ\beta) = \dfrac{\mathrm{d}}{\mathrm{d}t}(\phi(\gamma_{x,v}(t), \dot{\gamma}_{x,v}(t))) = \nabla \phi \cdot \dot{\gamma}=T(\phi)\circ\beta
+\end{eqnarray}
+\begin{eqnarray}\label{eq:24}
+\int_{\Omega_{\phi} V}|T\phi|^2\mathrm{d}\Sigma =\int_{\Theta_{\phi}}|\dfrac{\partial}{\partial t}(\phi\circ \beta)|^2 \mathrm{d}t\mathrm{d\sigma}
+\end{eqnarray}
+Where $\Theta_{\phi}$ is the corresponding support. Compare Eq:\ref{eq:22} and Eq:\ref{eq:24}, we only have to prove:
+\begin{eqnarray}
+\int_{\partial\Omega\times V^{-}}\mathrm{d}\sigma\int_{0}^{\tau^{+}}(\lambda\circ\beta) |\phi\circ\beta|^2\mathrm{d}t\le\lambda_0 \int_{\Theta_{\phi}}|\dfrac{\partial}{\partial t}(\phi\circ \beta)|^2 \mathrm{d}t\mathrm{d\sigma}
+\end{eqnarray}
+Then Cauchy Inequality will be enough.
 \end{proof}
 \end{document}
