@@ -1,0 +1,440 @@
+% !TeX spellcheck = en-GB
+% !TeX root = main.tex
+% !TeX encoding = UTF-8
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{makeidx}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\newcommand{\avg}[1]{\langle#1\rangle}
+\usepackage[usenames,dvipsnames]{pstricks} \usepackage{epsfig}
+
+\newtheorem{Def}{Definition}
+\newtheorem{Thm}{Theorem}
+\newtheorem{Col}{Corollary}
+\newtheorem{Rek}{Remark}
+
+\newtheorem{Con}{Conditon}
+\author{Yimin Zhong}
+\title{Recovery of transport equation coefficients}
+\begin{document}
+\maketitle
+\tableofcontents{}
+\section{Introduction}
+\section{Mathematical Formulation}
+We first consider transport equation with scattering known.
+\begin{eqnarray}\label{eq:1}
+v\cdot \nabla u + (\sigma_a  +\sigma_s) u &=& \sigma_s \langle u \rangle\quad\; \mbox{in } \Omega \\
+u  &=& g \qquad\quad \mbox{on } \partial\Omega\times V^{-}  
+\end{eqnarray}
+Given data as $H(x) = \sigma_a \langle u \rangle$ for recovering $\sigma_a$ only or $H(x) = \gamma\sigma_a\avg{u}$ for recovering $\gamma$ and $\sigma_a$ both.
+\begin{Def}
+Function $E$ as $$E(x,v,\sigma) = \int_{0}^{\tau(x,v)} \exp\Big(-\sigma(x- \tau(x,v)v + sv)\Big)\mathrm{d}s$$ 
+Corresponding operator as $I:C^{\infty}(+;\partial\Omega\times V^{-})\to C^{\infty}(\Omega\times V)$ such that
+$$Ig =  g(x-\tau(x,v)v,v)\int_{0}^{\tau(x,v)} \exp\Big(-\sigma(x- \tau(x,v)v + sv)\Big)\mathrm{d}s $$
+and define norm on non-negative function  space $C^{\infty}(+;\partial\Omega\times V^{-})$ as 
+\begin{eqnarray}
+\|g\| = \max_{x,v} \|g(x-\tau(x,v)v,v)\|
+\end{eqnarray}
+and norm on $C^{\infty}(\Omega\times V)$ is
+\begin{eqnarray}
+\|f\| = \max_{x,v}\|f(x,v)\|
+\end{eqnarray}
+\end{Def}\label{def:1}
+\begin{Def}
+Operator $R:C^{\infty}(\Omega)\to C^{\infty}(\Omega\times V)$ as 
+$$R(f(x))(x,v)  = \int_{0}^{\tau(x,v)} \dfrac{E(x,v,\sigma)}{E(x-\tau(x,v)v +sv,v,\sigma)} f(x-\tau(x,v)v + sv)\mathrm{d}s$$
+For short, we simply write
+\begin{equation}
+E(x - \tau(x,v)v + sv,v,\sigma) = E(s)
+\end{equation}
+\end{Def}\label{def:2}
+\begin{Def}
+Operator $S:C^{\infty}(\Omega\times V)\to C^{\infty}(\Omega)$ as averaging operator on angular space.
+$$S(g(x,v))(x)  = \dfrac{1}{|V|}\int_{V} g(x,v)\mathrm{d}v$$
+
+\end{Def}\label{def:3}
+\begin{Def}
+If a function $g\in C^{\infty}(+;\partial\Omega\times V^{-})$ belongs to function class $G(h,\sigma)$, then
+\begin{eqnarray}
+SIh = SIg
+\end{eqnarray}
+We say two boundary conditions are the same if they belongs to the same class.
+\end{Def}\label{def:4}
+\begin{Rek}
+A function $g\in C^{\infty}(+;\partial\Omega\times V^{-})$ can belong to multiple classes with different $\sigma$ and represent element.
+\end{Rek}
+\begin{Col} By using H\"{o}lder inequality, we can obtain a coarse estimate,
+$$\|R\|_{L^{\infty}} \le \mathrm{diam}(\Omega)$$ 
+and 
+$$\|SI\|_{L^{\infty}} \le \mathrm{diam}(\Omega)$$
+Also we have a trivial estimate
+$$\|SIg\|\ge \min_{x,v}\|g(x-\tau(x,v)v,v)\|\exp(-\tau\max_{x}\sigma)$$
+\end{Col}\label{col:1}
+\begin{Col}
+The solution to the (\ref{eq:1}) satisfies
+$$u = Ig + R(\sigma_sSu)$$
+and $\psi = Su$ satisfies
+$$\psi = S(Ig) + SR\sigma_s\psi$$
+\end{Col}\label{col:2}
+\begin{Thm}
+Averaged solution operator for (\ref{eq:1}) is
+\begin{equation}
+Su = (I - SR\sigma_s)^{-1}S(Ig) = Q^{-1}SIg
+\end{equation}
+when $Q=(I - SR\sigma_s)$ is invertible, and this is always true when $$\mathrm{diam}(\Omega)\|\sigma_s\| \le 1$$
+\end{Thm}\label{thm:1}
+\begin{proof}
+From corollary \ref{col:2}, this is trivial.
+\end{proof}\label{pr:1}
+\begin{Thm}
+Consider equation (\ref{eq:1}), if $\sigma_s = 0$ and data is $f= \avg{u}$, not $\sigma_a\avg{u}$, then $\sigma_a$ can be recovered when source is beam source $g =g(x)\delta(v-v')$.
+\end{Thm}\label{thm:2}
+\begin{proof}
+This is trivial.
+\end{proof}
+\begin{Thm}
+Consider equation (\ref{eq:1}), if $\sigma_s = 0$ and data is $f= \avg{u}$, not $\sigma_a\avg{u}$, then $\sigma_a$ can be recovered when source is beam combination $g =\sum_{i=1}^n g_i(x)\delta(v-v_i)$, where for any two directions $v_k$ and $v_l$, they have common incoming source point. i.e. there exists a open set $P$ on $\partial\Omega$, such that $\{v_1,\cdots, v_n\}\subset V^{-}(P)$
+\end{Thm}
+\begin{proof}
+It is easy to show 
+\begin{eqnarray}
+f = \sum_i^n g_i(x - \tau_i v_i) \exp\Big(-\int_0^{\tau_i} \sigma(x-\tau_i v_i + sv_i)\mathrm{d}s\Big)
+\end{eqnarray}
+take Frech\'{e}t derivative w.r.t $\sigma$,
+\begin{eqnarray}
+\dfrac{\partial f}{\partial \sigma}(\psi) =\sum_i^n -g_i(x - \tau_i v_i)E(\tau_i,v_i)J(\tau_i,v_i)
+\end{eqnarray}
+where
+\begin{eqnarray}
+J(\tau_i,v_i) &=& \int_0^{\tau_i} \psi(x-\tau_i v_i + sv_i)\mathrm{d}s \\ 
+E(\tau_i,v_i) &=&  \exp\Big(-\int_0^{\tau_i} \sigma(x-\tau_i v_i + sv_i)\mathrm{d}s\Big)
+\end{eqnarray}
+If putting $\dfrac{\partial f}{\partial \sigma}(\psi) = 0$, we want to show only $\psi =0$ can make it.
+\\
+Denote $K(\tau) = \dfrac{\partial f}{\partial \sigma}(\psi)$, and consider directional derivative along $v_k$, then
+\begin{eqnarray}
+\dfrac{\partial K}{\partial \tau_k} &=& \sum_{i=1}^n -\dfrac{\partial g_i(x-\tau_i v_i)}{\partial \tau_k}E_i J_i -g\dfrac{\partial E_i}{\partial \tau_k} J_i - gE_i\dfrac{\partial J_i}{\partial\tau_k}\\
+&=& \sum_{i=1}^n -\Big(\dfrac{\partial g_i(x-\tau_i v_i)}{\partial \tau_k}E_i + g\dfrac{\partial E_i}{\partial \tau_k}  \Big) J_i - gE_i\Big(\int_0^{\tau_i}\dfrac{\partial \psi}{\partial \tau_k} + \psi(x)\Big)
+\end{eqnarray}
+evaluate above expression at the common incoming source point set $P$, then $\tau_j = 0$ for all $j=1,\cdots,n$, which indicates $\psi|_P = 0$.
+Then by taking multiple directional derivatives, we can extract more information of higher order Taylor expansion coefficients on $P$ as zero. Thus if $\psi$ is analytic, we can show $\psi = 0$.
+\end{proof}
+\section{Zero Scattering $\sigma_s = 0$}
+\subsection{Recover $\sigma_a$ only}
+This is trivial.
+\subsection{Recover $\sigma_a$ and $\gamma$ both}
+If $H = \gamma\sigma_a \avg{u}$, then two datasets $H_1$ and $H_2$ for different boundary conditions would be enough for recovering $\sigma_a$ and $\gamma$. Considering 
+\begin{eqnarray}\label{eq:31}
+\theta(x) = \dfrac{H_1}{H_2} = \dfrac{Su_1}{Su_2} =\dfrac{Ig_1}{Ig_2}
+\end{eqnarray}
+\subsubsection{Two Beam sources}
+Suppose we have $g_1 = g_1(x)\delta(v - v_1)$ and $g_2 = g_2(x)\delta(v- v_2)$ as two different beam sources. Then from (\ref{eq:31}), 
+\begin{eqnarray}
+\int_0^{\tau_1}\sigma(x - \tau_1 v_1 + sv_1)\mathrm{d}s= \tilde{\theta}+\int_0^{\tau_2}\sigma(x - \tau_2 v_1 + sv_2)\mathrm{d}s
+\end{eqnarray}
+where $\tilde{\theta}$ is modified from $\theta$ with known information.
+\subsubsection{Condition of recovery}
+When $v_1$ and $v_2$ are not opposite directions, i.e. $v_1 + v_2\neq \mathbf{0}$, then we either need more information of $\sigma$ to achieve a unique recovery or have requirement on geometry of domain,
+\begin{eqnarray}
+\Theta(\mathbf{x}) = \int_0^{\tau_1}\sigma(x - \tau_1 v_1 + sv_1)\mathrm{d}s - \int_0^{\tau_2}\sigma(x - \tau_2 v_2 + sv_2)\mathrm{d}s
+\end{eqnarray}
+% Generated with LaTeXDraw 2.0.8
+% Sat May 10 19:02:14 CDT 2014
+\begin{figure}[H]
+\begin{center}
+\begin{pspicture}(0,-2.191967)(7.157311,2.1875896)
+\psbezier[linewidth=0.04](0.60807264,1.3755345)(1.2185223,2.1675897)(6.2388344,1.8289466)(6.6880727,0.93553454)(7.1373105,0.042122427)(6.016352,-0.98839056)(5.1480727,-1.4844655)(4.279793,-1.9805404)(2.451445,-2.1719668)(1.6280726,-1.6044655)(0.8047002,-1.036964)(-0.0023769955,0.58347946)(0.60807264,1.3755345)
+\psline[linewidth=0.04cm,linestyle=dotted]{->}(5.088073,-1.5444655)(3.5680726,0.7155345)
+\psline[linewidth=0.04cm,linestyle=dotted]{->}(1.6480726,-1.6044655)(3.5880725,0.67553455)
+\usefont{T1}{ptm}{m}{n}
+\rput(2.5744789,-0.09946548){$v_1$}
+\usefont{T1}{ptm}{m}{n}
+\rput(4.84901,-0.3194655){$v_2$}
+\usefont{T1}{ptm}{m}{n}
+\rput(3.0043225,-0.7194655){$\tau_1$}
+\usefont{T1}{ptm}{m}{n}
+\rput(4.158854,-1.1594654){$\tau_2$}
+\usefont{T1}{ptm}{m}{n}
+\rput(3.7735415,0.8805345){$x$}
+\end{pspicture} 
+\end{center}
+\caption{Demonstration of $\Theta(x)$}
+\end{figure}
+\begin{itemize}
+\item when $g_1$ and $g_2$ are opposite beams sources, then 
+\begin{eqnarray}
+\Theta(\mathbf{x}) = \int_0^{\tau_1}\sigma(x - \tau_1 v_1 + sv_1)\mathrm{d}s - \int_0^{\tau - \tau_1}\sigma(x + (\tau -\tau_1) v_1 - sv_1)\mathrm{d}s\nonumber
+\end{eqnarray}
+then taking derivative w.r.t $\tau_1$ will be enough. And
+$\sigma$ can be recovered with loss of one derivative only.
+\item When $g_1$ and $g_2$ does not satisfy opposite beam condition, then it is hard to recover all information of $\sigma$ without any further data. We first show a trivial example.
+% Generated with LaTeXDraw 2.0.8
+% Sat May 10 19:58:39 CDT 2014
+\begin{figure}[H]
+\begin{center}
+\begin{pspicture}(0,-2.17)(4.3,2.15)
+\psframe[linewidth=0.04,dimen=outer](4.3,2.15)(0.0,-2.15)
+\psline[linewidth=0.04cm,linestyle=dotted]{->}(0.04,-0.11)(1.62,-0.11)
+\psline[linewidth=0.04cm,linestyle=dotted]{->}(1.62,-2.15)(1.62,-0.13)
+\psline[linewidth=0.04cm](0.08,2.09)(4.28,-2.13)
+\usefont{T1}{ptm}{m}{n}
+\rput(1.8214063,0.055){$x$}
+\usefont{T1}{ptm}{m}{n}
+\rput(2.2514062,-1.185){$\tau_2$}
+\usefont{T1}{ptm}{m}{n}
+\rput(1.1314063,0.135){$\tau_1$}
+\usefont{T1}{ptm}{m}{n}
+\rput(2.8910938,.715){$\Omega$}
+\end{pspicture}
+\end{center}
+\caption{Demonstration of $\Theta(x)$}
+\end{figure}
+Suppose $v_1$ and $v_2$ are along axis directions, then the data can be written as
+\begin{eqnarray}
+\Theta(x,y) = \int_0^x \sigma(s,y) \mathrm{d}s - \int_0^y \sigma(x,t)\mathrm{d}t
+\end{eqnarray}
+While when $\sigma = x+y$ throughout the domain $\Omega = [0,1]\times[0,1]$, $$\Theta(x,y) = \dfrac{x^2 }{2} - \dfrac{y^2}{2}$$
+when $\sigma = x+y$ on lower triangle part and $\sigma = 0$ on upper part, then 
+$$\Theta(x,y) = \dfrac{x^2}{2} - \dfrac{y^2}{2}$$
+as well.
+It is easy to show we can have a \emph{unique} and \emph{stable} recovery on lower triangle part. And on other part, there is no uniqueness if we do not impose analytic property or smoothness onto $\sigma$.
+\end{itemize}
+\subsubsection{More information}
+From above argument, we need some more assumption on the geometry of $\Omega$ or smoothness of $\sigma$ or some further information of $\sigma$.
+\begin{itemize}\label{con:0}
+\item If we assume non-smoothness of $\sigma$ and no information of \emph{over-cut-cone}(see explanation below the figure) boundary condition, then a unique recovery depends on specific domain shape. It is easy to prove \emph{cut-cone} property is necessary by appropriate extension and affine transform(since it is angular-independent). Numerical experiments are trivial here and easy to imagine.
+% Generated with LaTeXDraw 2.0.8
+% Sun May 11 12:35:02 CDT 2014
+% \usepackage[usenames,dvipsnames]{pstricks}
+% \usepackage{epsfig}
+% \usepackage{pst-grad} % For gradients
+% \usepackage{pst-plot} % For axes
+\begin{figure}[H]
+\begin{center}
+\begin{pspicture}(0,-2.96)(8.38,2.96)
+\psbezier[linewidth=0.04](1.9,2.0)(2.6695805,2.6385498)(6.5063925,1.7818414)(6.78,0.82)(7.0536075,-0.14184138)(6.110234,-0.5084616)(5.16,-0.82)(4.2097664,-1.1315384)(2.6885686,-1.0636505)(2.02,-0.32)(1.3514315,0.4236505)(1.1304196,1.3614501)(1.9,2.0)
+\psline[linewidth=0.04cm]{->}(0.0,0.98)(3.44,2.94)
+\psline[linewidth=0.04cm]{->}(2.16,-2.94)(8.36,0.88)
+\psline[linewidth=0.04cm]{->}(4.26,-2.26)(0.3,1.06)
+\psline[linewidth=0.04cm]{->}(8.16,-0.08)(4.46,2.9)
+\psline[linewidth=0.04cm,linestyle=dotted](-0.28,2.62)(7.98,0.96)
+\usefont{T1}{ptm}{m}{n}
+\rput(6.2814064,0.565){$\Omega$}
+\end{pspicture} 
+\end{center}
+\caption{\emph{cut-cone} property, If $\Omega$ is \emph{all} under the dashed line, then satisfies \emph{cut-cone} property, \emph{over-cut-cone} boundary is the boundary above the \textit{cut-cone} part.}
+\end{figure}
+
+\item If we do not have geometric restriction or \emph{over-cut-cone} boundary information of $\sigma$, then we need $\sigma\in C^{\infty}(\Omega)$. And we can show this is necessary and sufficient condition for recovering $\sigma$ theoretically. However, this requirement seems to be \textit{difficult} for numerical computing.
+\item If we have $\emph{over-cut-cone}$ boundary information, then the recovery will be unique and stable, this is trivial and easy to verify by numerical experiment.
+\end{itemize}
+\subsection{Generalized beam sources}
+Consider beam source $g = \sum_{i=1}^n g_i(x)\delta(v-v_i)$.
+\section{Numerical Approach when $\sigma_s = 0$}
+\subsection{Optimization}
+
+\subsection{Fix point iteration}
+\subsubsection{Beam sources}
+Since fix point iteration is weaker than optimization, we have to make prior assumption on geometry or $\sigma$ to sustain uniqueness.
+From the Theorem \ref{thm:2}, we can see a natural fix iteration scheme as 
+\begin{itemize}
+\item initialize $\sigma^0$.
+\item update $u^k$ by solving
+\begin{eqnarray}
+v\cdot \nabla u_1^k  + \sigma^k u_1^k &=& 0 \\
+u_1^k &=& g_1
+\end{eqnarray}
+\item update $\avg{u_2^k}$ by 
+\begin{eqnarray}
+\avg{u_2^k} = \dfrac{\avg{u_1^k}}{\theta(x)}
+\end{eqnarray}
+\item update $\sigma^{k+1}$ by recovering $\sigma^{k+1}$ from
+\begin{eqnarray}
+v\cdot\nabla u_2^k  + (\alpha\sigma^{k+1} + (1-\alpha)\sigma^k) u_2^k &=& 0\\
+u_2^k &=& g_2
+\end{eqnarray}
+where $\alpha$ is a weight factor.
+\end{itemize}
+\subsubsection{Possible Convergence}
+\begin{itemize}
+\item For beam sources $g_1 = g_1(x)\delta(v-v_1)$ and $g_2 = g_2(x)\delta(v- v_2)$. We can get iteration scheme as
+\begin{eqnarray}\label{eq:40}
+\int_0^{\tau_1} \Delta \sigma^k = (1-\alpha) \int_0^{\tau_2}\Delta \sigma^{k+1} + \alpha\int_0^{
+\tau_2}\Delta \sigma^k
+\end{eqnarray}
+when the directions are \underline{opposite}, a.k.a $v_1 + v_2 = \mathbf{0}$, then
+\begin{eqnarray}
+\int_0^{\tau_1} \Delta \sigma^k = (1-\alpha) \int_0^{\tau - \tau_1}\Delta \sigma^{k+1} +\alpha\int_0^{
+\tau - \tau_1}\Delta \sigma^k
+\end{eqnarray}
+Differentiate w.r.t $\tau_1$, then
+\begin{equation}
+\Delta \sigma^{k+1} = \dfrac{\alpha+1}{\alpha-1}\Delta\sigma^k
+\end{equation}
+When $\alpha < 0$, we get a linear convergence. Especially, we can obtain a one-step convergence by setting $\alpha = -1$.
+\item For \underline{non-opposite} beam sources, we consider the same scheme (\ref{eq:40}).
+\begin{eqnarray}\label{eq:43}
+\int_0^{\tau_1} \Delta \sigma^k = (1-\alpha) \int_0^{\tau_2}\Delta \sigma^{k+1} + \alpha\int_0^{
+\tau_2}\Delta \sigma^k
+\end{eqnarray}
+Since this does not have \textit{angular-averaged} operator included, we can use affine transform to make the directions \underline{orthogonal}. Later we will see an good initial guess would be necessary. 
+
+Again, we take the unit square as an example. 
+\begin{figure}[H]
+\begin{center}
+\begin{pspicture}(0,-2.17)(4.3,2.15)
+\psframe[linewidth=0.04,dimen=outer](4.3,2.15)(0.0,-2.15)
+\psline[linewidth=0.04cm,linestyle=dotted]{->}(0.04,-0.11)(1.62,-0.11)
+\psline[linewidth=0.04cm,linestyle=dotted]{->}(1.62,-2.15)(1.62,-0.13)
+\psline[linewidth=0.04cm](0.08,2.09)(4.28,-2.13)
+\usefont{T1}{ptm}{m}{n}
+\rput(1.8214063,0.055){$x$}
+\usefont{T1}{ptm}{m}{n}
+\rput(2.2514062,-1.185){$\tau_2$}
+\usefont{T1}{ptm}{m}{n}
+\rput(1.1314063,0.135){$\tau_1$}
+\usefont{T1}{ptm}{m}{n}
+\rput(2.8910938,.715){$\Omega$}
+\end{pspicture}
+\end{center}
+\caption{Iteration scheme on unit square}
+\end{figure}
+Take $\psi^k = \Delta\sigma^k$ for convenience.
+\begin{eqnarray}
+\int_0^x \psi^k(s,y)\mathrm{d}s = (1-\alpha)\int_0^y \psi^{k+1}(x,t)\mathrm{d}t + \alpha\int_0^y \psi^k(x,t)\mathrm{d}t
+\end{eqnarray}
+Differentiate w.r.t $y$, then
+\begin{eqnarray}
+\psi^{k+1}(x,y) = \dfrac{-\alpha}{1- \alpha}\psi^k(x,y) + \dfrac{1}{1-\alpha}\int_0^x \dfrac{\partial \psi^k}{\partial y}(s,y)\mathrm{d}s 
+\end{eqnarray}
+We consider the following \underline{\emph{strict}} conditions.
+\begin{Con}\label{con:1}
+\item For each $k\ge 0$ and $n\ge 1$, $\lambda\dfrac{\partial^n \psi^k}{\partial x\partial y^{n-1}}\ge  \dfrac{\partial^n \psi^k}{\partial y^n}\ge 0$, $\lambda\in (0,1)$.
+\end{Con}
+Suppose the above condition holds at $k=0$. then by deduction, assuming this holds at $k = m$, consider $k = m+1$,
+\begin{eqnarray}
+\psi^{m+2}(x,y) = \dfrac{-\alpha}{1-\alpha}\psi^{m+1}(x,y) + \dfrac{1}{1-\alpha}\int_0^x \dfrac{\partial \psi^{m+1}}{\partial y}\mathrm{d}s
+\end{eqnarray}
+and taking derivative w.r.t $x$,
+\begin{eqnarray}
+\dfrac{\partial \psi^{m+2}}{\partial x} &=& \dfrac{-\alpha}{1-\alpha}\dfrac{\partial \psi^{m+1}}{\partial x} + \dfrac{1}{1-\alpha}\dfrac{\partial \psi^{m+1}}{\partial y} \\
+\dfrac{\partial \psi^{m+2}}{\partial y} &=& \dfrac{-\alpha}{1-\alpha}\dfrac{\partial \psi^{m+1}}{\partial y} + \dfrac{1}{1-\alpha}\int_0^x \dfrac{\partial \psi^{m+1}}{\partial y^2}
+\end{eqnarray}
+Since $\alpha <0$, and by assumption,
+\begin{eqnarray}
+\lambda\dfrac{-\alpha}{1-\alpha}\dfrac{\partial \psi^{m+1}}{\partial x} \ge  \dfrac{-\alpha}{1-\alpha}\dfrac{\partial \psi^{m+1}}{\partial y}
+\end{eqnarray}
+also
+\begin{eqnarray}
+\lambda\int_0^x \dfrac{\partial^2 \psi^{m+1}}{\partial x\partial y}\ge  \int_0^x \dfrac{\partial \psi^{m+1}}{\partial y^2}
+\end{eqnarray}
+Thus 
+\begin{eqnarray}
+\lambda\dfrac{\partial \psi^{m+2}}{\partial x} \ge  \dfrac{\partial \psi^{m+2}}{\partial y}
+\end{eqnarray}
+for higher ordered derivative, this method also works.
+\end{itemize}
+So if initial guess can satisfy this super strict condition, then each output will also satisfy this condition. However, we can prove
+\begin{eqnarray}
+|\psi^{m+2}| \le \dfrac{-\alpha}{1-\alpha}|\psi^{m+1}| + \lambda\dfrac{1}{1-\alpha}|\psi^{m+1}| \le \dfrac{\lambda - \alpha}{1 - \alpha} |\psi^{m+1}|
+\end{eqnarray}
+So we conclude 
+\begin{Thm}
+For the case of recovering $sigma$ and $\gamma$ both.
+When using \underline{non-opposite} single beam sources and the problem setting forces unique solution(see \ref{con:0}), also initial guess satisfies Condition \ref{con:1}, iteration scheme will converge.
+\end{Thm}
+\begin{Col}
+Using opposite beam sources can be recovered using one-step.
+\end{Col}
+\section{Nonzero Scattering}
+\subsection{Recover $\sigma_a$ only}
+If $H = \sigma_a \avg{u} = \sigma_a Su$, then one measurement is enough for recovering $\sigma_a$. Consider iteration scheme,
+\begin{eqnarray}
+\sigma_a^{k+1} = \dfrac{H}{(I-SR^k\sigma_s)^{-1}S(I^kg)}= \dfrac{H}{(Q^k)^{-1}S(I^kg)}
+\end{eqnarray}
+Then the error estimate as following
+\begin{eqnarray}
+\dfrac{\Delta\sigma_a^{k+1}}{\sigma_a^{k+1}}(Q)^{-1}SIg =(Q^k)^{-1}\Big(S(I^k-I)+ S(R^k\sigma_s - R\sigma_s)(Q)^{-1}SI\Big)g
+\end{eqnarray}
+\begin{eqnarray}
+&&\|(Q^k)^{-1}\Big(S(I^k-I)+ S(R^k - R)\sigma_s(Q)^{-1}SI\Big)g\|\nonumber\\
+&&\le \|(Q^k)^{-1}\|(\|S(I^k - I)g\| + \|S(R^k - R)\sigma_s(Q)^{-1}SIg\|)
+\end{eqnarray}
+And
+\begin{eqnarray}
+(I^k - I) = I^k\Big(1 - \exp(-\int_0^{\tau(x,v)} \Delta \sigma_a^k(s)\mathrm{d}s)\Big)\le \mathrm{diam}(\Omega)\|\Delta \sigma_a^k\|
+\end{eqnarray}
+From Definition \ref{def:2},
+\begin{eqnarray}
+&&\|(R^k - R)\sigma_s(f)\| = \|\int_0^{\tau(x,v)}\Big(\dfrac{E^k(\tau)}{E(s)} - \dfrac{E(\tau)}{E(s)}\Big)\sigma_sf(s)\|\\
+&&\le \|\sigma_s\|\Big(\|\int_{0}^{\tau} \dfrac{E^k(\tau)-E(\tau)}{E^k(s)}f(s)\| +
+\|E(\tau)\int_0^{\tau(x,v)}\dfrac{E(s) - E^k(s)}{E(s)E^k(s)}f(s)\|\Big)\nonumber\\
+&&\le \|\sigma_s\|\Big(\|\int_{0}^{\tau} \dfrac{E^k(\tau)-E(\tau)}{E^k(s)}f(s)\| +
+\|\int_0^{\tau(x,v)}\dfrac{E(s) - E^k(s)}{E^k(s)}f(s)\|\Big)\\
+&&\le C(\sigma_a^k)\|\sigma_s\| \mathrm{diam}(\Omega)\|\Delta\sigma_a^k\|\|f\|
+\end{eqnarray}
+Thus
+\begin{eqnarray}
+\dfrac{\Delta\sigma_a^{k+1}}{\sigma_a^{k+1}}\dfrac{\min \|g\|\exp(-\mathrm{diam}(\Omega)\max\sigma_a)}{\|Q\|}\le C(\sigma_a^k) \mathrm{diam}(\Omega)\|\Delta \sigma_a^k\|\|\sigma_s\|\|g\|
+\end{eqnarray}
+\begin{eqnarray}
+\dfrac{\|\Delta \sigma_a^{k+1}\|}{\|\Delta \sigma_a^k\|} \le C(\sigma_a^k, \mathrm{diam}(\Omega))\|Q\|\|\sigma_s\|\mathrm{diam}(\Omega)\dfrac{\max\|g\|}{\min\|g\|}
+\end{eqnarray}
+which gives a convergent series under some condition.
+\subsection{Recover $\sigma_a$ and $\gamma$ both}
+\begin{Thm}
+Consider equation (\ref{eq:1}), if $\sigma_s$ is given accurate, and data is $f= \avg{u}$, not $\sigma_a\avg{u}$, then $\sigma_a$ can be recovered with point-beam source $g(x,v) = \delta(x-x')\delta(v-v')$.
+\end{Thm}
+\begin{proof}
+This is trivial by extracting singular component of solution field.
+\end{proof}
+\begin{Thm}
+In general, $\sigma_a$ can be recovered from data $f = \avg{u}$ if source is under \textit{strict} condition.
+\end{Thm}
+\begin{proof}
+We simply consider $\dfrac{\partial f}{\partial \sigma_a}(\psi)$ for some nonzero $\psi$. Since
+\begin{eqnarray}
+(I-SR\sigma_s)f = SIg
+\end{eqnarray}
+thus
+\begin{eqnarray}
+(I-SR\sigma_s)\dfrac{\partial f}{\partial \sigma_a}(\psi) - S\dfrac{\partial R\sigma_s f}{\partial \sigma_a}(\psi) = -SJ_{\tau} E_{\tau} g(x-\tau(x,v)v,v)
+\end{eqnarray}
+where 
+\begin{eqnarray}
+J_s = \int_0^s \psi(x-\tau(x,v)v)\mathrm{d}s
+\end{eqnarray}
+And 
+\begin{eqnarray}
+\dfrac{\partial R\sigma_s f}{\partial\sigma_a} = -E_{\tau}\int_0^{\tau} \dfrac{(J_{\tau} - J_s)\sigma_s f(s)}{E_s}\mathrm{d}s
+\end{eqnarray}
+which only needs to show
+\begin{eqnarray}
+L(x) = S\Big(E_{\tau}\int_0^{\tau}\dfrac{(J_{\tau} - J_s)\sigma_s f}{E_s} + E_{\tau} J_{\tau} g\Big)\neq 0
+\end{eqnarray}
+Moreover, take $K_{\tau}(v)$ as
+\begin{eqnarray}
+K_{\tau}(v) = \int_0^{\tau}\dfrac{(J_{\tau} - J_s)\sigma_s f}{E_s} +  J_{\tau} g(x-\tau(x,v)v,v)
+\end{eqnarray}
+then
+\begin{eqnarray}
+\dfrac{\partial K_{\tau}}{\partial\tau} = \psi\Big(\int_0^{\tau}\dfrac{\sigma_s f}{E_s}\mathrm{d}s + g\Big) = \psi \dfrac{u(x,v)}{E_{\tau}}
+\end{eqnarray}
+We can rewrite $L(x)$ as
+\begin{eqnarray}
+L(x)  = S\Big(E_{\tau,v} \int_0^{\tau(x,v)} \psi \dfrac{u(s,v)}{E_{s,v}}\mathrm{d}s\Big)
+\end{eqnarray}
+If $L(x) = 0$, then consider the following transport equation
+\begin{eqnarray}
+v \cdot \nabla w + (\sigma_a + \sigma_s)w &=& \psi u(x,v)\\
+w &=& 0
+\end{eqnarray}
+And $Sw = 0$ at each point. 
+\end{proof}
+\end{document}
