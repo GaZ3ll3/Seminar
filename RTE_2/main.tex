@@ -99,7 +99,7 @@ Consider equation (\ref{eq:1}), if $\sigma_s = 0$ and data is $f= \avg{u}$, not 
 This is trivial.
 \end{proof}
 \begin{Thm}
-Consider equation (\ref{eq:1}), if $\sigma_s = 0$ and data is $f= \avg{u}$, not $\sigma_a\avg{u}$, then $\sigma_a$ can be recovered when source is beam combination $g =\sum_{i=1}^n g_i(x)\delta(v-v_i)$, where for any two directions $v_k$ and $v_l$, they have common incoming source point. i.e. there exists a open set $P$ on $\partial\Omega$, such that $\{v_1,\cdots, v_n\}\subset V^{-}(P)$
+Consider equation (\ref{eq:1}), if $\sigma_s = 0$ and data is $f= \avg{u}$, not $\sigma_a\avg{u}$, then $\sigma_a$ can be uniquely recovered when source is beam combination $g =\sum_{i=1}^n g_i(x)\delta(v-v_i)$, where for any two directions $v_k$ and $v_l$, they have common incoming source point. i.e. there exists a open set $P$ on $\partial\Omega$, such that $\{v_1,\cdots, v_n\}\subset V^{-}(P)$.
 \end{Thm}
 \begin{proof}
 It is easy to show 
@@ -119,12 +119,19 @@ If putting $\dfrac{\partial f}{\partial \sigma}(\psi) = 0$, we want to show only
 \\
 Denote $K(\tau) = \dfrac{\partial f}{\partial \sigma}(\psi)$, and consider directional derivative along $v_k$, then
 \begin{eqnarray}
-\dfrac{\partial K}{\partial \tau_k} &=& \sum_{i=1}^n -\dfrac{\partial g_i(x-\tau_i v_i)}{\partial \tau_k}E_i J_i -g\dfrac{\partial E_i}{\partial \tau_k} J_i - gE_i\dfrac{\partial J_i}{\partial\tau_k}\\
-&=& \sum_{i=1}^n -\Big(\dfrac{\partial g_i(x-\tau_i v_i)}{\partial \tau_k}E_i + g\dfrac{\partial E_i}{\partial \tau_k}  \Big) J_i - gE_i\Big(\int_0^{\tau_i}\dfrac{\partial \psi}{\partial \tau_k} + \psi(x)\Big)
+\dfrac{\partial K}{\partial \tau_k} &=& \sum_{i=1}^n -\dfrac{\partial g_i(x-\tau_i v_i)}{\partial \tau_k}E_i J_i -g_i\dfrac{\partial E_i}{\partial \tau_k} J_i - g_iE_i\dfrac{\partial J_i}{\partial\tau_k}\\
+&=& \sum_{i=1}^n -\Big(\dfrac{\partial g_i(x-\tau_i v_i)}{\partial \tau_k}E_i + g_i\dfrac{\partial E_i}{\partial \tau_k}  \Big) J_i - g_iE_i\left(\int_0^{\tau_i}\dfrac{\partial \psi}{\partial \tau_k} + \psi(x)\dfrac{\partial \tau_i}{\partial \tau_k}\right)\nonumber
 \end{eqnarray}
-evaluate above expression at the common incoming source point set $P$, then $\tau_j = 0$ for all $j=1,\cdots,n$, which indicates $\psi|_P = 0$.
-Then by taking multiple directional derivatives, we can extract more information of higher order Taylor expansion coefficients on $P$ as zero. Thus if $\psi$ is analytic, we can show $\psi = 0$.
+evaluate above expression at the common incoming source point set $P$, then $\tau_j = 0$ for all $j=1,\cdots,n$, which indicates $\psi|_P = 0$, if we assume 
+$
+{\begin{pmatrix}
+\dfrac{\partial \tau_i}{\partial \tau_k}
+\end{pmatrix}}_{ik}
+$ is nonsingluar. Then by taking multiple directional derivatives, we can extract more information of higher order Taylor expansion coefficients on $P$ as zero. Thus if $\psi$ is analytic, we can show $\psi = 0$.
 \end{proof}
+\begin{Rek}
+From above argument, we cannot recover unique $\sigma_a$ when the source $g = g_1(x)\delta(v-v_1) + g_2(x)\delta(v-v_2)$, with $v_1 + v_2 = \mathbf{0}$.
+\end{Rek}
 \section{Zero Scattering $\sigma_s = 0$}
 \subsection{Recover $\sigma_a$ only}
 This is trivial.
