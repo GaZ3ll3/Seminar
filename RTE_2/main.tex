@@ -393,16 +393,10 @@ Thus
 \begin{eqnarray}
 \dfrac{\|\Delta \sigma_a^{k+1}\|}{\|\Delta \sigma_a^k\|} \le C(\sigma_a^k, \mathrm{diam}(\Omega))\|Q\|\|\sigma_s\|\mathrm{diam}(\Omega)\dfrac{\max\|g\|}{\min\|g\|}
 \end{eqnarray}
-which gives a convergent series under some condition.
+which gives a convergent series under \underline{some} condition.
 \subsection{Recover $\sigma_a$ and $\gamma$ both}
 \begin{Thm}
-Consider equation (\ref{eq:1}), if $\sigma_s$ is given accurate, and data is $f= \avg{u}$, not $\sigma_a\avg{u}$, then $\sigma_a$ can be recovered with point-beam source $g(x,v) = \delta(x-x')\delta(v-v')$.
-\end{Thm}
-\begin{proof}
-This is trivial by extracting singular component of solution field.
-\end{proof}
-\begin{Thm}
-In general, $\sigma_a$ can be recovered from data $f = \avg{u}$ if source is under \textit{strict} condition.
+In general, $\sigma_a$ can be recovered from data $f = \avg{u}$ if source is under \underline{strict} condition.
 \end{Thm}
 \begin{proof}
 We simply consider $\dfrac{\partial f}{\partial \sigma_a}(\psi)$ for some nonzero $\psi$. Since
@@ -437,11 +431,22 @@ We can rewrite $L(x)$ as
 \begin{eqnarray}
 L(x)  = S\Big(E_{\tau,v} \int_0^{\tau(x,v)} \psi \dfrac{u(s,v)}{E_{s,v}}\mathrm{d}s\Big)
 \end{eqnarray}
-If $L(x) = 0$, then consider the following transport equation
+Here we assume the source is also beam-like as we proved in previous section, $g(x,v) = g(x)\delta(v- v')$. We know the solution can be decomposed into two parts.
 \begin{eqnarray}
-v \cdot \nabla w + (\sigma_a + \sigma_s)w &=& \psi u(x,v)\\
-w &=& 0
+ u (x,v) = g(x-\tau'v')\delta(v-v')E(\tau',v') + \Upsilon 
+\end{eqnarray} 
+Where $\Upsilon$ is non-singular function in $v$, and bounded by $\|\sigma_s\|\mathrm{diam}(\Omega)$, linear in $\sigma_s$ and $g$.
+\begin{eqnarray}
+\Upsilon = R\sigma_s f
 \end{eqnarray}
-And $Sw = 0$ at each point. 
+rewrite $L(x)$ as
+\begin{eqnarray}
+L(x) &=& E_{\tau',v'}g(x-\tau'v')\int_0^{\tau'}\psi(x-\tau' v' + sv')\mathrm{d}s + S\left(E_{\tau,v} \int_0^{\tau}\psi\dfrac{\Upsilon}{E_{s,v}}\mathrm{d}s\right) \nonumber\\
+ &=& L_1(x) + L_2(x)
+\end{eqnarray}
+We can kind of prove the case when $\sigma_s$ is tiny.
+\begin{eqnarray}
+\dfrac{\partial L_1(x)}{\partial \tau'} =E_{\tau',v'}g(x-\tau'v')\Big( -\sigma(x) \int_0^{\tau'}\psi\mathrm{d}s + \psi(x)\Big)
+\end{eqnarray}
 \end{proof}
 \end{document}
