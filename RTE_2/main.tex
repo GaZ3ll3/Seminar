@@ -449,4 +449,45 @@ We can kind of prove the case when $\sigma_s$ is tiny.
 \dfrac{\partial L_2(x)}{\partial \tau'} = S\Big(\dfrac{\partial E_{\tau,v}}{\partial \tau'}\int_0^{\tau}\psi\dfrac{\Upsilon}{E_{s,v}}\mathrm{d}s + E_{\tau,v}\int_0^{\tau} + \Big)
 \end{eqnarray}
 \end{proof}
+\begin{proof}
+Another proof.
+Since we have already
+\begin{eqnarray}
+Su'&=& SI' g + SR'\sigma_s \avg{u'}\\
+Su  &=& SI g + SR\sigma_s \avg{u}
+\end{eqnarray}
+Thus
+\begin{eqnarray}
+S(u'-u) = S(I'-I)g + S(R'\sigma_sSu' - R\sigma_sSu)
+\end{eqnarray}
+\begin{eqnarray}
+S(u'-u) = S(I'-I)g + SR'\sigma_sS(u'-u) + S(R'-R)\sigma_sSu
+\end{eqnarray}
+\begin{eqnarray}
+\|(I - SR'\sigma_s)S(\Delta u)\| = \|S(I'-I)g + S(R'-R)\sigma_s Su\|
+\end{eqnarray}
+It is easy to show $S(\Delta u)$ is bounded from above by $\|\Delta\sigma\|$. On the other hand, it is not easy at all.
+\begin{eqnarray}
+\|S(I'-I)g + S(R'-R)\sigma_s Su\|\ge \|S(I'-I)g\| - \|S(R'-R)\sigma_s Su\|\\
+\|S(I'-I)g + S(R'-R)\sigma_s Su\|\ge  \|S(R'-R)\sigma_s Su\| - \|S(I'-I)g\| 
+\end{eqnarray}
+\begin{eqnarray}
+\|S(I'-I)g\| =\avg{E_{\tau}(1-\exp(-\int_0^{\tau}\Delta\sigma))g}\le \|g\|\mathrm{diam}(\Omega)\|\Delta\sigma\|\\
+\|S(I'-I)g\|\ge C\mathrm{diam}(\Omega) \min_x g\|S(1 - \exp(-\int_0^{\tau}\Delta\sigma))\|
+\end{eqnarray}
+
+\begin{eqnarray}
+\|S(R'-R)\sigma_s Su\| \le C\|\sigma_s\|\|\Delta\sigma\|\mathrm{diam}(\Omega)\|g\|
+\end{eqnarray}
+Now we need to show there is a relationship between
+\begin{eqnarray}
+\|S(1 - \exp(-\int_0^{\tau}\Delta\sigma))\|\ge \max|\Delta\sigma|
+\end{eqnarray}
+or first order approximation
+\begin{eqnarray}
+\|S\int_0^{\tau}\Delta\sigma\|\ge \lambda \max|\Delta\sigma|
+\end{eqnarray}
+for some $\lambda>0$.
+When this is satisfied, we can prove this forces a stability estimate. 
+\end{proof}
 \end{document}
